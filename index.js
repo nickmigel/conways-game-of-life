@@ -1,12 +1,12 @@
 let isPlaying = false
 let cells = []
 
-function mouseReleased() {
-
+for (i = 0; i < 25; i++) {
+    cells.push([])
 }
 
 function setup() {
-    createCanvas(1200, 625)
+    createCanvas(1000, 625)
     frameRate(30)
     textSize(30);
     textAlign(CENTER)
@@ -17,11 +17,13 @@ function setup() {
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
             cell = new Cell(createVector(cellWidth * j, 25 * i), cellWidth, 24, color(0, 0, 0), color(255))
-            cells.push(cell)
+            cells[i].push(cell)
         }
     }
 }
+
 let testing = 0
+
 function draw() {
     background(0, 0, 0)
     stroke(255)
@@ -30,27 +32,51 @@ function draw() {
     }
 
     for (let i = 0; i < cells.length; i++) {
-        let cell = cells[i]
-        cell.display()
+        for (j = 0; j < cells[i].length; j++) {
+            let cell = cells[i][j]
+            cell.display()
 
-    }
-    if (testing === 1) {
-        // console.log(cells)
+        }
     }
 
-    for (let i = 0; i < cells.length - 1; i++) {
-        if (mouseX < cells[i].location.x + cells[i].width && mouseX > cells[i].location.x &&
-            mouseY < cells[i].location.y + cells[i].height && mouseY > cells[i].location.y) {
-            if (mouseIsPressed && mouseButton == LEFT) {
-                if (frameCount % 2 === 0) {
-                    cells[i].isAlive()
-                    console.log(mouseX, mouseY, 'x,', ' y', cells[0].location.x + cells[0].width, cells[0].location.y + cells[0].height)
+    if (isPlaying) {
+        return
+    } else {
+        for (let i = 0; i < cells.length; i++) {
+            for (j = 0; j < cells[i].length; j++) {
+                if (mouseX < cells[i][j].location.x + cells[i][j].width && mouseX > cells[i][j].location.x &&
+                    mouseY < cells[i][j].location.y + cells[i][j].height && mouseY > cells[i][j].location.y) {
+                    if (mouseIsPressed && mouseButton == LEFT) {
+                        if (frameCount % 2 === 0) {
+                            cells[i][j].isAlive()
+                        }
+                    }
                 }
             }
         }
     }
 
 }
+const parentDiv = document.querySelector("body")
 
+const startBtn = document.createElement('button')
+startBtn.textContent = 'Start'
+startBtn.classList.add('start')
+parentDiv.append(startBtn)
+
+const stopBtn = document.createElement('button')
+stopBtn.classList.add('stop')
+stopBtn.textContent = 'Stop'
+parentDiv.append(stopBtn)
+
+startBtn.addEventListener('click', () => {
+    isPlaying = true
+})
+
+stopBtn.addEventListener('click', () => {
+    isPlaying = false
+})
 
 draw()
+
+
