@@ -57,6 +57,7 @@ function draw() {
     }
 
 }
+
 const parentDiv = document.querySelector("body")
 
 const startBtn = document.createElement('button')
@@ -78,5 +79,3 @@ stopBtn.addEventListener('click', () => {
 })
 
 draw()
-
-
