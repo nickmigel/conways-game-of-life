@@ -1,8 +1,38 @@
 class Landscape {
     constructor(matrix) {
         this.matrix = matrix
+        this.nextMatrix = [...this.matrix]
+    }
+    checkAlive(cell) {
+        let counter = 0
+        cell.neighbors.forEach(item => {
+            if (item.life) {
+                counter++
+            }
+        })
+        if (cell.life && counter === 3 || counter === 2) {
+            console.log('this ran', counter)
+            cell.isAlive()
+        } else if (cell.life === false && counter === 3) {
+            console.log('the else ran')
+            cell.isAlive()
+        }
+        return cell
     }
 
+    buffer() {
+        this.matrix.forEach((item, i) => {
+            this.checkAlive(item)
+            this.nextMatrix[i] == item
+        })
+    }
+
+    nextGen() {
+        this.matrix = this.nextMatrix
+        this.nextMatrix.forEach(item => {
+            item.getnext()
+        })
+    }
 }
 
 //landscape will have atleast a matrix of cells in a 25x25 grid

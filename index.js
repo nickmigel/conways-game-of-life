@@ -1,11 +1,14 @@
 let isPlaying = false
 let cells = []
+let simple = []
+let landscape
 
 for (i = 0; i < 25; i++) {
     cells.push([])
 }
 
 function setup() {
+    simple = []
     createCanvas(1000, 625)
     frameRate(30)
     textSize(30);
@@ -16,40 +19,53 @@ function setup() {
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
-            cell = new Cell(createVector(cellWidth * j, 25 * i), cellWidth, 24, color(0, 0, 0), color(255))
+            cell = new Cell(createVector(cellWidth * j, 25 * i), cellWidth, 24, color(0, 0, 0), color(0))
             cells[i].push(cell)
+            simple.push(cell)
         }
     }
+    simple.forEach(item => {
+        item.getNeighbors(cells)
+    })
+    landscape = new Landscape(simple)
 }
 
-let testing = 0
+let currentGen = 0
+let nxtgen = 1
 
 function draw() {
     background(0, 0, 0)
     stroke(255)
-    if (frameCount % 30 === 0) {
-        testing++
-    }
 
-    for (let i = 0; i < cells.length; i++) {
-        for (j = 0; j < cells[i].length; j++) {
-            let cell = cells[i][j]
-            cell.display()
-
-        }
+    for (let i = 0; i < simple.length; i++) {
+        cell = simple[i]
+        cell.display()
     }
 
     if (isPlaying) {
-        return
+
+        if (frameCount % 30 === 0) {
+            currentGen++
+        }
+
+        if (frameCount % 15 === 0 && currentGen < nxtgen) {
+            landscape.buffer()
+            console.log(currentGen, 'current gen')
+        }
+
+        if (currentGen === nxtgen) {
+            console.log('it worked')
+            nxtgen++
+            landscape.nextGen()
+        }
+
     } else {
-        for (let i = 0; i < cells.length; i++) {
-            for (j = 0; j < cells[i].length; j++) {
-                if (mouseX < cells[i][j].location.x + cells[i][j].width && mouseX > cells[i][j].location.x &&
-                    mouseY < cells[i][j].location.y + cells[i][j].height && mouseY > cells[i][j].location.y) {
-                    if (mouseIsPressed && mouseButton == LEFT) {
-                        if (frameCount % 2 === 0) {
-                            cells[i][j].isAlive()
-                        }
+        for (let i = 0; i < simple.length; i++) {
+            if (mouseX < simple[i].location.x + simple[i].width && mouseX > simple[i].location.x &&
+                mouseY < simple[i].location.y + simple[i].height && mouseY > simple[i].location.y) {
+                if (mouseIsPressed && mouseButton == LEFT) {
+                    if (frameCount % 2 === 0) {
+                        simple[i].toggle()
                     }
                 }
             }
