@@ -83,6 +83,18 @@ function draw() {
         }
     })
 
+    clear.addEventListener('click', () => {
+        if (isPlaying === false) {
+            nxtgen = 1
+            currentGen = 0
+            simple.forEach(cell => {
+                if (cell.life === true) {
+                    cell.toggle()
+                }
+            })
+        }
+    })
+
 }
 
 const parentDiv = document.querySelector("body")
@@ -180,14 +192,6 @@ choice3.addEventListener('click', () => {
     }
 })
 
-clear.addEventListener('click', () => {
-    if (isPlaying === false) {
-        simple.forEach(cell => {
-            if (cell.life === true) {
-                cell.toggle()
-            }
-        })
-    }
-})
+
 
 draw()
