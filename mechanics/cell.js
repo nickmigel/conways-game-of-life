@@ -16,6 +16,7 @@ class Cell {
 
     toggle() {
         this.life = !this.life
+        this.next = !this.next
         if (this.life) {
             this.color = color(255)
         } else {

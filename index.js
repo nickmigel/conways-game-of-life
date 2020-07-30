@@ -2,24 +2,28 @@ let isPlaying = false
 let cells = []
 let simple = []
 let landscape
+let speed = 30
+
+const header = document.querySelector('header')
+const generation = document.createElement('p')
+
+header.append(generation)
 
 for (i = 0; i < 25; i++) {
     cells.push([])
 }
 
 function setup() {
-    simple = []
     createCanvas(1000, 625)
-    frameRate(30)
-    textSize(30);
-    textAlign(CENTER)
+    frameRate(speed)
     const rows = 25
     const columns = 25
     const cellWidth = width / columns
+    const cellHeight = height / rows
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
-            cell = new Cell(createVector(cellWidth * j, 25 * i), cellWidth, 24, color(0, 0, 0), color(0))
+            cell = new Cell(createVector(cellWidth * j, 25 * i), cellWidth, cellHeight, color(0, 0, 0), color(0))
             cells[i].push(cell)
             simple.push(cell)
         }
@@ -50,11 +54,9 @@ function draw() {
 
         if (frameCount % 15 === 0 && currentGen < nxtgen) {
             landscape.buffer()
-            console.log(currentGen, 'current gen')
         }
 
-        if (currentGen === nxtgen) {
-            console.log('it worked')
+        if (frameCount % 15 === 0 && currentGen === nxtgen) {
             nxtgen++
             landscape.nextGen()
         }
@@ -71,12 +73,15 @@ function draw() {
             }
         }
     }
-
+    generation.textContent = `current generation: ${currentGen}`
 }
 
 const parentDiv = document.querySelector("body")
 
 const startBtn = document.createElement('button')
+
+
+
 startBtn.textContent = 'Start'
 startBtn.classList.add('start')
 parentDiv.append(startBtn)
@@ -86,12 +91,26 @@ stopBtn.classList.add('stop')
 stopBtn.textContent = 'Stop'
 parentDiv.append(stopBtn)
 
+const nextBtn = document.createElement('button')
+nextBtn.classList.add('next')
+nextBtn.textContent = 'nex generation'
+parentDiv.append(nextBtn)
+
 startBtn.addEventListener('click', () => {
     isPlaying = true
 })
 
 stopBtn.addEventListener('click', () => {
     isPlaying = false
+})
+
+nextBtn.addEventListener('click', () => {
+    if (isPlaying === false) {
+        isPlaying = true
+        setTimeout(() => {
+            isPlaying = false
+        }, 1275)
+    }
 })
 
 draw()
