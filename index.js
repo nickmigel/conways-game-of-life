@@ -74,6 +74,47 @@ function draw() {
         }
     }
     generation.textContent = `current generation: ${currentGen}`
+    rand.addEventListener('click', () => {
+        for (i = 0; i < simple.length; i++) {
+            randNum = Math.random()
+            if (randNum > 0.5) {
+                simple[i].toggle()
+            }
+        }
+    })
+    choice1.addEventListener('click', () => {
+        let neighbors = simple[215].neighbors
+        neighbors[3].toggle()
+        simple[215].toggle()
+        neighbors[4].toggle()
+    })
+
+    choice2.addEventListener('click', () => {
+        let neighbors = simple[515].neighbors
+        neighbors[3].toggle()
+        simple[515].toggle()
+        neighbors[4].toggle()
+        let neighbors2 = neighbors[2].neighbors
+        neighbors2[3].toggle()
+        neighbors[2].toggle()
+        neighbors2[4].toggle()
+    })
+
+    choice3.addEventListener('click', () => {
+        let neighbors = simple[202].neighbors
+        neighbors[3].toggle()
+        neighbors[1].toggle()
+        neighbors[4].toggle()
+        neighbors[6].toggle()
+    })
+
+    clear.addEventListener('click', () => {
+        simple.forEach(cell => {
+            if (cell.life === true) {
+                cell.toggle()
+            }
+        })
+    })
 }
 
 const parentDiv = document.querySelector("body")
@@ -103,6 +144,26 @@ startBtn.addEventListener('click', () => {
 stopBtn.addEventListener('click', () => {
     isPlaying = false
 })
+
+const rand = document.createElement('button')
+rand.textContent = 'randomize'
+parentDiv.append(rand)
+
+const choice1 = document.createElement('button')
+choice1.textContent = 'Pre-generated 1'
+parentDiv.append(choice1)
+
+const choice2 = document.createElement('button')
+choice2.textContent = 'Pre-generated 2'
+parentDiv.append(choice2)
+
+const choice3 = document.createElement('button')
+choice3.textContent = 'Pre-generated 3'
+parentDiv.append(choice3)
+
+const clear = document.createElement('button')
+clear.textContent = 'clear'
+parentDiv.append(clear)
 
 nextBtn.addEventListener('click', () => {
     if (isPlaying === false) {
