@@ -82,39 +82,7 @@ function draw() {
             }
         }
     })
-    choice1.addEventListener('click', () => {
-        let neighbors = simple[215].neighbors
-        neighbors[3].toggle()
-        simple[215].toggle()
-        neighbors[4].toggle()
-    })
 
-    choice2.addEventListener('click', () => {
-        let neighbors = simple[515].neighbors
-        neighbors[3].toggle()
-        simple[515].toggle()
-        neighbors[4].toggle()
-        let neighbors2 = neighbors[2].neighbors
-        neighbors2[3].toggle()
-        neighbors[2].toggle()
-        neighbors2[4].toggle()
-    })
-
-    choice3.addEventListener('click', () => {
-        let neighbors = simple[202].neighbors
-        neighbors[3].toggle()
-        neighbors[1].toggle()
-        neighbors[4].toggle()
-        neighbors[6].toggle()
-    })
-
-    clear.addEventListener('click', () => {
-        simple.forEach(cell => {
-            if (cell.life === true) {
-                cell.toggle()
-            }
-        })
-    })
 }
 
 const parentDiv = document.querySelector("body")
@@ -171,6 +139,54 @@ nextBtn.addEventListener('click', () => {
         setTimeout(() => {
             isPlaying = false
         }, 1275)
+    }
+})
+
+
+choice1.addEventListener('click', () => {
+    if (isPlaying === false) {
+
+        let neighbors = simple[215].neighbors
+        neighbors[1].toggle()
+        simple[215].toggle()
+        neighbors[6].toggle()
+        neighbors[5].toggle()
+        neighbors[5].neighbors[0].toggle()
+    }
+})
+
+choice2.addEventListener('click', () => {
+    if (isPlaying === false) {
+
+        let neighbors = simple[515].neighbors
+        neighbors[3].toggle()
+        simple[515].toggle()
+        neighbors[4].toggle()
+        let neighbors2 = neighbors[2].neighbors
+        neighbors2[3].toggle()
+        neighbors[2].toggle()
+        neighbors2[4].toggle()
+    }
+})
+
+choice3.addEventListener('click', () => {
+    if (isPlaying === false) {
+
+        let neighbors = simple[202].neighbors
+        neighbors[3].toggle()
+        neighbors[1].toggle()
+        neighbors[4].toggle()
+        neighbors[6].toggle()
+    }
+})
+
+clear.addEventListener('click', () => {
+    if (isPlaying === false) {
+        simple.forEach(cell => {
+            if (cell.life === true) {
+                cell.toggle()
+            }
+        })
     }
 })
 
